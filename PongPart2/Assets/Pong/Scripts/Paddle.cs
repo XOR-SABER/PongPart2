@@ -39,24 +39,14 @@ public class Paddle : MonoBehaviour
         float bounceDirection = (pctHeight - 0.5f) / 0.5f;
         // Debug.Log($"pct {pctHeight} + bounceDir {bounceDirection}");
 
-        if (bounceDirection >= 0.6)
-        {
-            Amanager.Play("Top");
-        }
-        else if (bounceDirection <= -0.6)
-        {
-            Amanager.Play("Bottom");
-        }
-        else
-        {
-            Amanager.Play("Mid");
-        }
+        if (bounceDirection >= 0.6) Amanager.Play("Top");
+        else if (bounceDirection <= -0.6) Amanager.Play("Bottom");
+        else Amanager.Play("Mid");
 
         // flip the velocity and rotation direction
         Vector3 currentVelocity = other.relativeVelocity;
         float newSign = -Math.Sign(currentVelocity.x);
         float newRotSign = -newSign;
-        Debug.Log(bounceDirection);
 
         // Change the velocity between -60 to 60 degrees based on where it hit the paddle
         float newSpeed = currentVelocity.magnitude * collisionBallSpeedUp;
@@ -66,6 +56,6 @@ public class Paddle : MonoBehaviour
         newVelocity = Quaternion.Euler(0f, newRotSign * 60f * bounceDirection, 0f) * newVelocity;
         other.rigidbody.velocity = newVelocity;
 
-        Debug.DrawRay(other.transform.position, newVelocity, Color.yellow);
+        // Debug.DrawRay(other.transform.position, newVelocity, Color.yellow);
     }
 }

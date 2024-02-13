@@ -255,8 +255,8 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 4
-  m_CollisionDetection: 1
+  m_Constraints: 116
+  m_CollisionDetection: 2
 --- !u!96 &146388166
 TrailRenderer:
   serializedVersion: 3
@@ -461,7 +461,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a2ca17d6ce5b57643a329418c7f586ed, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -745,6 +745,76 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &724513934
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 724513936}
+  - component: {fileID: 724513935}
+  m_Layer: 0
+  m_Name: Audio Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &724513935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724513934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdcd3804657f48a43aefd9779a71209e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Bottom
+    clip: {fileID: 8300000, guid: f6bb67fe06ad3644f92bb8b22d1b279d, type: 3}
+    volume: 0.269
+    pitch: 1
+    source: {fileID: 0}
+  - name: Top
+    clip: {fileID: 8300000, guid: d3c4fe6d548728a44a8c9ef1f40337e9, type: 3}
+    volume: 0.256
+    pitch: 1
+    source: {fileID: 0}
+  - name: Mid
+    clip: {fileID: 8300000, guid: cb8a0b45aef370c4bb041b2ae20bda23, type: 3}
+    volume: 0.266
+    pitch: 1
+    source: {fileID: 0}
+  - name: PowerUp
+    clip: {fileID: 8300000, guid: df2be05ed3ad7194d84aa2593fbb656e, type: 3}
+    volume: 0.75
+    pitch: 1
+    source: {fileID: 0}
+  - name: Score
+    clip: {fileID: 8300000, guid: 7c0e68dfb25a19f4b9bf788eed84567f, type: 3}
+    volume: 0.75
+    pitch: 1
+    source: {fileID: 0}
+--- !u!4 &724513936
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724513934}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.230658, y: -9.751172, z: -7.3674765}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &871515431
 GameObject:
   m_ObjectHideFlags: 0
@@ -897,7 +967,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a2ca17d6ce5b57643a329418c7f586ed, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1246,8 +1316,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxTravelHeight: 3
   minTravelHeight: -3
-  speed: 3
+  speed: 6
   collisionBallSpeedUp: 1.5
+  ballMaxSpeed: 50
   inputAxis: LeftPaddle
 --- !u!1 &1984929614
 GameObject:
@@ -1314,8 +1385,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxTravelHeight: 3
   minTravelHeight: -3
-  speed: 3
+  speed: 6
   collisionBallSpeedUp: 1.5
+  ballMaxSpeed: 50
   inputAxis: RightPaddle
 --- !u!65 &2084160398
 BoxCollider:
@@ -1420,3 +1492,4 @@ SceneRoots:
   - {fileID: 642472328}
   - {fileID: 1984929615}
   - {fileID: 1677812268}
+  - {fileID: 724513936}

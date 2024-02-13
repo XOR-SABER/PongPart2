@@ -7,10 +7,6 @@ public class AudioManager : MonoBehaviour{
     // Start is called before the first frame update
     void Awake() {
         LookUpTable = new Hashtable();
-        if (sounds == null) {
-            Debug.LogError("Sounds array is not initialized.");
-            return;
-        }
         int index = 0;
         foreach (Sound s in sounds) {
             s.source = gameObject.AddComponent<AudioSource>();
@@ -27,6 +23,6 @@ public class AudioManager : MonoBehaviour{
             int index = (int)LookUpTable[soundName];
             sounds[index].source.Play();
         }
-        Debug.Log("Audio: " + soundName + " is not avaliable");
+        else Debug.Log("Audio: " + soundName + " is not avaliable");
     }
 }
