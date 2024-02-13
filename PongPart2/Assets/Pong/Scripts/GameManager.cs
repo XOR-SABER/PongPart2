@@ -6,12 +6,20 @@ public class GameManager : MonoBehaviour
     public float startSpeed = 3f;
     public GoalTrigger leftGoalTrigger;
     public GoalTrigger rightGoalTrigger;
+    private AudioManager Amanager;
 
     int leftPlayerScore;
     int rightPlayerScore;
     Vector3 ballStartPos;
 
     const int scoreToWin = 11;
+
+    //---------------------------------------------------------------------------
+    void Awake()
+    {
+        Amanager = FindObjectOfType<AudioManager>();
+    }
+
 
     //---------------------------------------------------------------------------
     void Start()
@@ -25,7 +33,7 @@ public class GameManager : MonoBehaviour
     public void OnGoalTrigger(GoalTrigger trigger)
     {
         // If the ball entered a goal area, increment the score, check for win, and reset the ball
-
+        Amanager.Play("Score");
         if (trigger == leftGoalTrigger)
         {
             rightPlayerScore++;
