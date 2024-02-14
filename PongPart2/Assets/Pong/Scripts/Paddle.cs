@@ -4,6 +4,7 @@ using System.Collections;
 
 public class Paddle : MonoBehaviour
 {
+    public GameObject particleFX; 
     public float maxTravelHeight;
     public float minTravelHeight;
     public float speed;
@@ -35,20 +36,23 @@ public class Paddle : MonoBehaviour
     //-----------------------------------------------------------------------------
     void OnCollisionEnter(Collision other)
     {
-        
-        
         var paddleBounds = GetComponent<BoxCollider>().bounds;
         float maxPaddleHeight = paddleBounds.max.z;
         float minPaddleHeight = paddleBounds.min.z;
+        // Particles
+        Vector3 particleDirection = other.transform.position - transform.position;
+        Quaternion particleRotation = Quaternion.LookRotation(particleDirection);
+        Instantiate(particleFX, other.contacts[0].point, particleRotation);
+
 
         // Get the percentage height of where it hit the paddle (0 to 1) and then remap to -1 to 1 so we have symmetry
         float pctHeight = (other.transform.position.z - minPaddleHeight) / (maxPaddleHeight - minPaddleHeight);
         float bounceDirection = (pctHeight - 0.5f) / 0.5f;
         // Debug.Log($"pct {pctHeight} + bounceDir {bounceDirection}");
 
-        if (bounceDirection >= 0.6) Amanager.Play("Top");
-        else if (bounceDirection <= -0.6) Amanager.Play("Bottom");
-        else Amanager.Play("Mid");
+        if (bounceDirection >= 0.3) Amanager.playAtPitch("BallHit", 2.5f);
+        else if (bounceDirection <= -0.3) Amanager.playAtPitch("BallHit", 0.5f);
+        else Amanager.playAtPitch("BallHit", 1.0f);
 
         // flip the velocity and rotation direction
         Vector3 currentVelocity = other.relativeVelocity;
@@ -61,6 +65,7 @@ public class Paddle : MonoBehaviour
         newSpeed = Math.Clamp(newSpeed, 0, ballMaxSpeed);
         Vector3 newVelocity = new Vector3(newSign, 0f, 0f) * newSpeed;
         newVelocity = Quaternion.Euler(0f, newRotSign * 60f * bounceDirection, 0f) * newVelocity;
+        // Particles
         other.rigidbody.velocity = newVelocity;
         StartCoroutine(RainbowEffectFX());
         // Debug.DrawRay(other.transform.position, newVelocity, Color.yellow);

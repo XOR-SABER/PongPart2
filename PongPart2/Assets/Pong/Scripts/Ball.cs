@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
+    public GameObject particleFX; 
     public float FXduration = 5f;
     public float FXspeedDelta = 0.5f;
     private new Renderer renderer;
@@ -21,7 +22,28 @@ public class Ball : MonoBehaviour
     }
     void OnCollisionEnter(Collision other)
     {
-        if(other.collider.CompareTag("FXStart")) StartCoroutine(RainbowEffectFX());
+        if(other.collider.CompareTag("FXStart")) {
+            StartCoroutine(RainbowEffectFX());
+            Vector3 contactPoint = other.contacts[0].point;
+            Vector3 particleDirection;
+            Quaternion particleRotation;
+
+            // Determine the particle direction based on the collision normal
+            if (other.contacts[0].normal == Vector3.up || other.contacts[0].normal == Vector3.down)
+            {
+                // For top or bottom collisions, use the paddle's forward direction
+                particleDirection = transform.forward;
+                particleRotation = Quaternion.LookRotation(-other.contacts[0].normal);
+            }
+            else
+            {
+                // For side collisions, use the normal direction from the collision
+                particleDirection = other.contacts[0].normal;
+                particleRotation = Quaternion.LookRotation(particleDirection);
+            }
+            Instantiate(particleFX, contactPoint, particleRotation);
+        }
+        
     }
 
     IEnumerator RainbowEffectFX() {

@@ -11,4 +11,9 @@ public class Sound
     public float pitch = 1.0f;
     [HideInInspector]
     public AudioSource source;
+    public Sound()
+    {
+        volume = 0.75f;
+        pitch = 1.0f;  
+    }
 }

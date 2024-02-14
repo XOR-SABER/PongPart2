@@ -25,4 +25,24 @@ public class AudioManager : MonoBehaviour{
         }
         else Debug.Log("Audio: " + soundName + " is not avaliable");
     }
+
+    public void playAtPitch(string soundName, float tempPitch) {
+        if (LookUpTable.ContainsKey(soundName)) {
+            int index = (int)LookUpTable[soundName];
+            float defaultPitch = sounds[index].pitch;
+            sounds[index].source.pitch = tempPitch;
+            sounds[index].source.Play();
+            // Reset it..
+            StartCoroutine(ResetPitchAfterSoundFinish(sounds[index].source, defaultPitch));
+        }
+        else Debug.Log("Audio: " + soundName + " is not avaliable");
+    }
+
+    private IEnumerator ResetPitchAfterSoundFinish(AudioSource source, float defaultPitch)
+    {
+        // Wait until the sound finishes playing
+        while (source.isPlaying) yield return null;
+        // Reset the pitch after the sound finishes playing
+        source.pitch = defaultPitch;
+    }
 }
