@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public Transform ball;
+    public Ball ball;
+    public Paddle LeftPaddle;
+    public Paddle RightPaddle;  
     public float startSpeed = 3f;
     public GoalTrigger leftGoalTrigger;
     public GoalTrigger rightGoalTrigger;
@@ -24,7 +26,7 @@ public class GameManager : MonoBehaviour
     //---------------------------------------------------------------------------
     void Start()
     {
-        ballStartPos = ball.position;
+        ballStartPos = ball.transform.position;
         Rigidbody ballBody = ball.GetComponent<Rigidbody>();
         ballBody.velocity = new Vector3(1f, 0f, 0f) * startSpeed;
     }
@@ -42,7 +44,7 @@ public class GameManager : MonoBehaviour
             if (rightPlayerScore == scoreToWin)
                 Debug.Log("Right player wins!");
             else
-                ResetBall(-1f);
+                ResetGame(-1f);
         }
         else if (trigger == rightGoalTrigger)
         {
@@ -52,14 +54,17 @@ public class GameManager : MonoBehaviour
             if (rightPlayerScore == scoreToWin)
                 Debug.Log("Right player wins!");
             else
-                ResetBall(1f);
+                ResetGame(1f);
         }
     }
 
     //---------------------------------------------------------------------------
-    void ResetBall(float directionSign)
+    void ResetGame(float directionSign)
     {
-        ball.position = ballStartPos;
+        LeftPaddle.Reset();
+        RightPaddle.Reset();
+        ball.Reset();
+        ball.transform.position = ballStartPos;
 
         // Start the ball within 20 degrees off-center toward direction indicated by directionSign
         directionSign = Mathf.Sign(directionSign);
