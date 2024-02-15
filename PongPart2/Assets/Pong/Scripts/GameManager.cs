@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     public int rightPlayerScore;
     Vector3 ballStartPos;
 
-    const int scoreToWin = 2;
+    const int scoreToWin = 11;
 
     //---------------------------------------------------------------------------
     void Awake()
@@ -155,8 +155,7 @@ public class GameManager : MonoBehaviour
     }
 
     void ScalePaddle(Paddle scalePaddle, int scalar) {
-        // Clamp the bitch.. a twink in Nipple clamps, a dick cage, and thigh highs sounds like a good time to me. 
-        // Best comment I ever made right here.. 
+        // Best comment I ever made.. was here!
         scalar = Math.Clamp(scalar, 1, 8);
         scalePaddle.transform.localScale = new Vector3(scalePaddle.transform.localScale.x, scalePaddle.transform.localScale.y, scalar);
         float travelHeight = -(.5f * scalar) + 5;

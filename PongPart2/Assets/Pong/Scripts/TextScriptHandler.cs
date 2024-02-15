@@ -30,6 +30,7 @@ public class RainbowTextEffect : MonoBehaviour
         float rotationAngle = Mathf.Sin(Time.time * RotateFrequency) * RotateAmplitude;
     
         transform.rotation = Quaternion.Euler(0f, 0f, rotationAngle * rotationSpeed);
+        // Absolute Territory 😉
         float scaleOffset = Mathf.Abs(Mathf.Sin(Time.time * scaleFrequency) * scaleAmplitude);
         Vector3 scale = initialScale + new Vector3(scaleOffset, scaleOffset, scaleOffset);
         transform.localScale = scale;

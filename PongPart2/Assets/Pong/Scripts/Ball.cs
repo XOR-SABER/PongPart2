@@ -46,6 +46,7 @@ public class Ball : MonoBehaviour
         
     }
 
+    // Really need to use a class for this..
     IEnumerator RainbowEffectFX() {
         startTime = Time.time;
         if(FXRunning) yield break;
