@@ -15,11 +15,11 @@ public class CameraShake : MonoBehaviour
 
     void Update()
     {
+        // I was going to use a subrutine but no.
         if (currentShakeIntensity > 0)
         {
             float offsetX = Mathf.PerlinNoise(Time.time * 10, 0) - 0.5f;
             float offsetY = Mathf.PerlinNoise(0, Time.time * 10) - 0.5f;
-
             transform.localPosition = originalPosition + new Vector3(offsetX, offsetY, 0) * currentShakeIntensity;
             currentShakeIntensity -= shakeDecay * Time.deltaTime;
         }
@@ -31,7 +31,7 @@ public class CameraShake : MonoBehaviour
 
     public void Shake()
     {
-        // Trigger camera shake
+        // Ambotshake!
         currentShakeIntensity = shakeIntensity;
     }
 }
