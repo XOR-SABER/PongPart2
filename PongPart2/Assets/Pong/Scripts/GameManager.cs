@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -39,27 +40,25 @@ public class GameManager : MonoBehaviour
     public void OnGoalTrigger(GoalTrigger trigger)
     {
         // If the ball entered a goal area, increment the score, check for win, and reset the ball
-        // Amanager.Play("Score");
         CheckIfCatchUp();
-        int randomIndex = UnityEngine.Random.Range(0, scoreSFX.Length);
-        Amanager.Play(scoreSFX[randomIndex]);
+        Amanager.Play(scoreSFX[UnityEngine.Random.Range(0, scoreSFX.Length)]);
         if (trigger == leftGoalTrigger)
         {
             rightPlayerScore++;
-            Debug.Log($"Right player scored: {rightPlayerScore}");
+            UnityEngine.Debug.Log($"Right player scored: {rightPlayerScore}");
 
             if (rightPlayerScore == scoreToWin)
-                Debug.Log("Right player wins!");
+                UnityEngine.Debug.Log("Right player wins!");
             else
                 ResetGame(-1f);
         }
         else if (trigger == rightGoalTrigger)
         {
             leftPlayerScore++;
-            Debug.Log($"Left player scored: {leftPlayerScore}");
+            UnityEngine.Debug.Log($"Left player scored: {leftPlayerScore}");
 
             if (rightPlayerScore == scoreToWin)
-                Debug.Log("Right player wins!");
+                UnityEngine.Debug.Log("Right player wins!");
             else
                 ResetGame(1f);
         }
@@ -87,25 +86,20 @@ public class GameManager : MonoBehaviour
     }
     // The catch up! Mechanic
     void CheckIfCatchUp() {
-        Debug.Log(Math.Abs(leftPlayerScore - rightPlayerScore));
         int diff = Math.Abs(leftPlayerScore - rightPlayerScore);
-        if (diff > 2 && !modifierActive) {
-            // Roll 
-            int roll = UnityEngine.Random.Range(1,10);
+        if (diff < 3) return;
+        int roll = UnityEngine.Random.Range(1,10);
+
+        // So essentually.. just check if th difference is too great, to "Catch up!"
+        if (!modifierActive) {
             // Around 50% 
             if(roll > 5) {
                 Amanager.Play("PaddleSizeExpandedVFX");
                 modifierActive = true;
                 currentModifier = "PaddleSizeExpanded";
-                if(leftPlayerScore < rightPlayerScore) {
-                    LeftPaddle.transform.localScale = new Vector3(LeftPaddle.transform.localScale.x, LeftPaddle.transform.localScale.y, 6);
-                    LeftPaddle.minTravelHeight = -2;
-                    LeftPaddle.maxTravelHeight = 2;
-                } else {
-                    RightPaddle.transform.localScale = new Vector3(RightPaddle.transform.localScale.x, RightPaddle.transform.localScale.y, 6);
-                    RightPaddle.minTravelHeight = -2;
-                    RightPaddle.maxTravelHeight = 2;
-                }
+                if(leftPlayerScore < rightPlayerScore) ScalePaddle(LeftPaddle, 6);
+                else ScalePaddle(RightPaddle, 6);
+                
                 // Around 20% chance
             } else if (roll <= 2) {
                 // Slow the bitch down.. 
@@ -115,18 +109,13 @@ public class GameManager : MonoBehaviour
                 Amanager.Play("Score1");
                 Time.timeScale = 0.75f;
             }
-        } else if (modifierActive) {
-            int roll = UnityEngine.Random.Range(1,10);
-            // 40% to reset the power up!
-            if(roll > 6) {
-                resetPowerUp();
-            }
+            // No need to continue; 
+            return;
         }
-
-        if(diff <= 1 && modifierActive) {
-            resetPowerUp();
-            // Perma Speed
-        }
+        // Player is unlucky! 
+        if (roll <= 3) resetPowerUp();
+        // Player is caught up
+        if(diff <= 1 && modifierActive) resetPowerUp();
     }
 
     void resetPowerUp() {
@@ -149,5 +138,15 @@ public class GameManager : MonoBehaviour
         }
         // Etc 
         currentModifier = "";
+    }
+
+    void ScalePaddle(Paddle scalePaddle, int scalar) {
+        // Clamp the bitch.. a twink in Nipple clamps, a dick cage, and thigh highs sounds like a good time to me. 
+        // Best comment I ever made right here.. 
+        scalar = Math.Clamp(scalar, 1, 8);
+        scalePaddle.transform.localScale = new Vector3(scalePaddle.transform.localScale.x, scalePaddle.transform.localScale.y, scalar);
+        float travelHeight = -(.5f * scalar) + 5;
+        scalePaddle.minTravelHeight = -travelHeight;
+        scalePaddle.maxTravelHeight = travelHeight;
     }
 }

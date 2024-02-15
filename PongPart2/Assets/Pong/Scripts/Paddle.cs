@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using TreeEditor;
 
 public class Paddle : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Paddle : MonoBehaviour
     public float FXduration = 5f;
     public float ballMaxSpeed = 150f;
     public string inputAxis;
+    private Vector3 startingPos;
     private AudioManager Amanager;
     private new Renderer renderer;
     private bool FXRunning;
@@ -22,6 +24,7 @@ public class Paddle : MonoBehaviour
     {
         renderer = GetComponent<Renderer>();
         Amanager = FindObjectOfType<AudioManager>();
+        startingPos = transform.position;
     }
 
     //-----------------------------------------------------------------------------
@@ -93,10 +96,10 @@ public class Paddle : MonoBehaviour
         }
         FXRunning = false;
         renderer.material.color = intiColor;
-
     }
 
     public void Reset() {
         isColorReset = true;
+        transform.position = startingPos;
     }
 }
