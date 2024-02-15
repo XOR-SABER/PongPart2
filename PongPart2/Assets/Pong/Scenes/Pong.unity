@@ -793,17 +793,17 @@ MonoBehaviour:
   sounds:
   - name: Score1
     clip: {fileID: 8300000, guid: 18ee5033d14333b41aed2680772798f9, type: 3}
-    volume: 0.5
+    volume: 0.188
     pitch: 1
     source: {fileID: 0}
   - name: Score2
     clip: {fileID: 8300000, guid: f89d336e502863c4797e89337544c9af, type: 3}
-    volume: 0.5
+    volume: 0.218
     pitch: 1
     source: {fileID: 0}
   - name: Score3
     clip: {fileID: 8300000, guid: ae41240606c5ebf439ee9266112690fe, type: 3}
-    volume: 0.5
+    volume: 0.205
     pitch: 1
     source: {fileID: 0}
   - name: BallHit
@@ -813,7 +813,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: PaddleSizeExpandedVFX
     clip: {fileID: 8300000, guid: 8465fe93cea2660428d19bd4ab90c121, type: 3}
-    volume: 0.5
+    volume: 1
     pitch: 1
     source: {fileID: 0}
   - name: PaddleSizeExpanded
@@ -823,11 +823,21 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: PowerUpResetVFX
     clip: {fileID: 8300000, guid: 7020f0f0a69c6a44bb93b0012eb9787d, type: 3}
-    volume: 0.5
+    volume: 1
     pitch: 1
     source: {fileID: 0}
   - name: OhYeah
-    clip: {fileID: 8300000, guid: 6d32975ec3961db43b775f73c4bc5557, type: 3}
+    clip: {fileID: 8300000, guid: 295cdde448684a24f92c68fcee332ea6, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: LeftPlayerWIns
+    clip: {fileID: 8300000, guid: bc2fbd0a2296f3a40ab22f0d75e3ffb5, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: RightPlayerWins
+    clip: {fileID: 8300000, guid: 7ce0acc00f938744a980921d1c4728ce, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
@@ -1227,6 +1237,7 @@ MonoBehaviour:
   LeftPaddle: {fileID: 1764608163}
   RightPaddle: {fileID: 2084160397}
   startSpeed: -5
+  scoreText: {fileID: 1684685888}
   leftGoalTrigger: {fileID: 653043940}
   rightGoalTrigger: {fileID: 642472329}
 --- !u!1 &1684685886
@@ -1287,7 +1298,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '1 : 1'
+  m_text: '0 : 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4d941f5072ac9564195a95d28fcc5cdc, type: 2}
   m_sharedMaterial: {fileID: 82973042627250222, guid: 4d941f5072ac9564195a95d28fcc5cdc, type: 2}
@@ -1378,10 +1389,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textMeshPro: {fileID: 0}
   FXduration: 1
-  RotateFrequency: 1
-  RotateAmplitude: 0.5
-  scaleFrequency: 1
-  scaleAmplitude: 0.5
+  RotateFrequency: 0.25
+  RotateAmplitude: 0.1
+  scaleFrequency: 0.25
+  scaleAmplitude: 0.1
   rotationSpeed: 15
 --- !u!1 &1764608158
 GameObject:

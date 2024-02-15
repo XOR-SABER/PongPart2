@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
@@ -10,10 +11,10 @@ public class RainbowTextEffect : MonoBehaviour
     private float startTime;
     private GameManager manager;
     private Vector3 initialScale;
-    public float RotateFrequency = 2;
-    public float RotateAmplitude = 3;
-    public float scaleFrequency = 2;
-    public float scaleAmplitude = 3;
+    public float RotateFrequency = 0.25f;
+    public float RotateAmplitude = 0.1f;
+    public float scaleFrequency = 0.25f;
+    public float scaleAmplitude = 0.1f;
     public float rotationSpeed = 15;
 
     // Start is called before the first frame update
@@ -32,7 +33,23 @@ public class RainbowTextEffect : MonoBehaviour
         float scaleOffset = Mathf.Abs(Mathf.Sin(Time.time * scaleFrequency) * scaleAmplitude);
         Vector3 scale = initialScale + new Vector3(scaleOffset, scaleOffset, scaleOffset);
         transform.localScale = scale;
-    }
+
+        int runningScore = Math.Max(manager.leftPlayerScore, manager.rightPlayerScore);
+        if(runningScore == 6) {
+            FXduration = 7.5f;
+            scaleFrequency = RotateFrequency = 0.5f;
+            scaleAmplitude = RotateAmplitude = 0.25f;
+        } 
+        if (runningScore == 8) {
+            scaleFrequency = RotateFrequency = 1.0f;
+            scaleAmplitude = RotateAmplitude = 0.5f;
+        }
+        if(runningScore == 10) {
+            FXduration = 5f;
+            scaleFrequency = RotateFrequency = 2.0f;
+            scaleAmplitude = RotateAmplitude = 1.0f;
+        }
+     }
 
     IEnumerator RainbowEffectFX()
     {

@@ -17,6 +17,7 @@ public class Paddle : MonoBehaviour
     private AudioManager Amanager;
     private new Renderer renderer;
     private bool FXRunning;
+    private CameraShake cam; 
     private bool isColorReset; 
     private float startTime;
 
@@ -24,6 +25,7 @@ public class Paddle : MonoBehaviour
     {
         renderer = GetComponent<Renderer>();
         Amanager = FindObjectOfType<AudioManager>();
+        cam = FindObjectOfType<CameraShake>();
         startingPos = transform.position;
     }
 
@@ -42,6 +44,9 @@ public class Paddle : MonoBehaviour
         var paddleBounds = GetComponent<BoxCollider>().bounds;
         float maxPaddleHeight = paddleBounds.max.z;
         float minPaddleHeight = paddleBounds.min.z;
+        // Thuggin it out
+        cam.Shake();
+
         // Particles
         Vector3 particleDirection = other.transform.position - transform.position;
         Quaternion particleRotation = Quaternion.LookRotation(particleDirection);

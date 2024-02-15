@@ -1,5 +1,6 @@
 using System;
-using System.Diagnostics;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -8,23 +9,27 @@ public class GameManager : MonoBehaviour
     public Paddle LeftPaddle;
     public Paddle RightPaddle;  
     public float startSpeed = 5f;
+    public TextMeshProUGUI scoreText;
     public GoalTrigger leftGoalTrigger;
     public GoalTrigger rightGoalTrigger;
     private bool modifierActive = false;
     private string currentModifier = "";
     private AudioManager Amanager;
     private string[] scoreSFX = {"Score1", "Score2", "Score3"};
-
-    int leftPlayerScore;
-    int rightPlayerScore;
+    private Wall[] walls;
+    [HideInInspector]
+    public int leftPlayerScore;
+    [HideInInspector]
+    public int rightPlayerScore;
     Vector3 ballStartPos;
 
-    const int scoreToWin = 11;
+    const int scoreToWin = 2;
 
     //---------------------------------------------------------------------------
     void Awake()
     {
         Amanager = FindObjectOfType<AudioManager>();
+        walls = FindObjectsOfType<Wall>();
     }
 
 
@@ -40,15 +45,16 @@ public class GameManager : MonoBehaviour
     public void OnGoalTrigger(GoalTrigger trigger)
     {
         // If the ball entered a goal area, increment the score, check for win, and reset the ball
-        CheckIfCatchUp();
         Amanager.Play(scoreSFX[UnityEngine.Random.Range(0, scoreSFX.Length)]);
         if (trigger == leftGoalTrigger)
         {
             rightPlayerScore++;
             UnityEngine.Debug.Log($"Right player scored: {rightPlayerScore}");
 
-            if (rightPlayerScore == scoreToWin)
+            if (rightPlayerScore == scoreToWin) {
                 UnityEngine.Debug.Log("Right player wins!");
+                Amanager.Play("RightPlayerWins");
+            }
             else
                 ResetGame(-1f);
         }
@@ -57,11 +63,20 @@ public class GameManager : MonoBehaviour
             leftPlayerScore++;
             UnityEngine.Debug.Log($"Left player scored: {leftPlayerScore}");
 
-            if (rightPlayerScore == scoreToWin)
-                UnityEngine.Debug.Log("Right player wins!");
+            if (leftPlayerScore == scoreToWin) {
+                UnityEngine.Debug.Log("left player wins!");
+                Amanager.Play("LeftPlayerWins");
+            }
             else
                 ResetGame(1f);
         }
+        setScoreText($"{leftPlayerScore} : {rightPlayerScore}");
+        CheckIfCatchUp();
+        ScoreEvents();
+    }
+
+    void setScoreText(string str) {
+        scoreText.text = str;
     }
 
     //---------------------------------------------------------------------------
@@ -87,6 +102,7 @@ public class GameManager : MonoBehaviour
     // The catch up! Mechanic
     void CheckIfCatchUp() {
         int diff = Math.Abs(leftPlayerScore - rightPlayerScore);
+        if (diff <= 1 && modifierActive) resetPowerUp();
         if (diff < 3) return;
         int roll = UnityEngine.Random.Range(1,10);
 
@@ -100,13 +116,12 @@ public class GameManager : MonoBehaviour
                 if(leftPlayerScore < rightPlayerScore) ScalePaddle(LeftPaddle, 6);
                 else ScalePaddle(RightPaddle, 6);
                 
-                // Around 20% chance
-            } else if (roll <= 2) {
+                // Around 50% chance
+            } else if (roll < 5) {
                 // Slow the bitch down.. 
                 modifierActive = true;
                 currentModifier = "SlowedDown";
                 Amanager.Play("OhYeah");
-                Amanager.Play("Score1");
                 Time.timeScale = 0.75f;
             }
             // No need to continue; 
@@ -114,8 +129,7 @@ public class GameManager : MonoBehaviour
         }
         // Player is unlucky! 
         if (roll <= 3) resetPowerUp();
-        // Player is caught up
-        if(diff <= 1 && modifierActive) resetPowerUp();
+        
     }
 
     void resetPowerUp() {
@@ -148,5 +162,11 @@ public class GameManager : MonoBehaviour
         float travelHeight = -(.5f * scalar) + 5;
         scalePaddle.minTravelHeight = -travelHeight;
         scalePaddle.maxTravelHeight = travelHeight;
+    }
+
+    void ScoreEvents() {
+        int highestGameScore = Math.Max(leftPlayerScore, rightPlayerScore);
+        walls[0].startRainbowFX();
+        walls[1].startRainbowFX();
     }
 }
